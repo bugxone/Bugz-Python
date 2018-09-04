@@ -1,0 +1,111 @@
+# -*- coding: utf-8 -*-
+"""
+@author: Bugz
+
+Tic Tac Toe Game
+
+  |   |  
+7 | 8 | 9
+  |   |  
+----------
+  |   |  
+4 | 5 | 6
+  |   |  
+----------
+  |   |  
+1 | 2 | 3
+  |   |  
+"""
+
+from IPython.display import clear_output
+test_board=[' '] * 10
+status = "DRAW"
+
+def display_board(board):
+    clear_output()
+    print(' ' + ' | ' + ' ' + ' | ' + ' ')
+    print(board[7] + ' | ' + board[8] + ' | ' + board[9])
+    print(' ' + ' | ' + ' ' + ' | ' + ' ')
+    
+    print('----------')
+    
+    print(' ' + ' | ' + ' ' + ' | ' + ' ')
+    print(board[4] + ' | ' + board[5] + ' | ' + board[6])
+    print(' ' + ' | ' + ' ' + ' | ' + ' ')
+    
+    print('----------')
+    
+    print(' ' + ' | ' + ' ' + ' | ' + ' ')
+    print(board[1] + ' | ' + board[2] + ' | ' + board[3])
+    print(' ' + ' | ' + ' ' + ' | ' + ' ')
+
+def playerposition(board,numloc,markloc):
+    numloc=int(numloc)
+    board[numloc]=markloc
+    display_board(board)
+    return WinLoss(test_board,markloc)
+            
+def WinLoss(board,mark):
+    # Check Horizontally
+    if ((board[1] == board[2] == board[3] == mark) or \
+        (board[4] == board[5] == board[6] == mark) or \
+        (board[7] == board[8] == board[9] == mark) or \
+    # Check Vertically
+        (board[1] == board[4] == board[7] == mark) or \
+        (board[2] == board[5] == board[8] == mark) or \
+        (board[3] == board[6] == board[9] == mark) or \
+    # Check Diagonally
+        (board[1] == board[5] == board[9] == mark) or \
+        (board[3] == board[5] == board[7] == mark)):
+            status = "Player " + mark + " Wins"
+    else:
+        status = "DRAW"
+    
+    return status
+
+def main():
+    strg=[]
+    display_board(test_board)
+    try:
+        marker = input("Player1: Choose X or O [Def Value:X]: ").upper()
+        if marker not in ['X','O']:
+            marker = 'X'
+            print("Player 1 Marker: " + marker)
+    except ValueError:
+        marker = 'X'
+        print("Player 1 Marker: " + marker)        
+        
+    step=1
+    
+    while step < 10:
+        if marker == 'X' :
+            if step % 2 == 0:
+                stepmarker = 'O'
+            else:
+                stepmarker = 'X'
+        else:
+            if step % 2 == 0:
+                stepmarker = 'X'
+            else:
+                stepmarker = 'O'           
+        
+        position=input("Player '" + stepmarker + "', Enter numericals 1-9: ")
+        try:
+            if position in strg:
+                print("Please enter unique numericals")
+            else:
+                strg.append(position)
+                WhoWon = playerposition(test_board,position,stepmarker)                    
+                step += 1
+                    
+                if WhoWon != "DRAW":
+                    break                
+        except ValueError:
+            print("Please enter unique numericals")
+        except IndexError:
+            print("Please enter values from only between 1 and 9")
+            
+    print("Match Status : " +  WhoWon)
+    
+if __name__ == '__main__':
+    main()
