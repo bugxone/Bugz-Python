@@ -1,2 +1,2 @@
 # Bugz-Python
-Python Repository
+My Python Repository
